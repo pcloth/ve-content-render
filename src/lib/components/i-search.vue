@@ -4,7 +4,7 @@
         class-name="sub-navbar draft"
         v-if="searchItem.length"
     >
-        <el-form class="filter-box">
+        <el-form class="filter-box ve-content-render-search">
             <template v-for="(v, k) in searchItem">
                 <el-input
                     v-if="!v.slot||v.slot==='input'"
