@@ -6,6 +6,7 @@
     >
         <el-form class="filter-box ve-content-render-search">
             <template v-for="(v, k) in searchItem">
+                <!-- 普通输入框 -->
                 <el-input
                     v-if="!v.slot||v.slot==='input'"
                     :clearable="v.clearable"
@@ -14,6 +15,7 @@
                     v-model.trim="v.val"
                     :style="{ width: `${v.width ? v.width : itemWidth}px` }"
                 />
+                <!-- 选择框 -->
                 <el-select
                     v-else-if="v.slot ==='select'"
                     :key="v.id"
@@ -28,6 +30,13 @@
                 >
                     <el-option v-for="(o,i) in v.options" :label="o.label" :value="o.value" :key="`${o.value}${k}${i}`"/>
                 </el-select>
+                <!-- 日期选择器 -->
+                <el-date-picker
+                    v-else-if="v.slot ==='date-picker'"
+                    :key="v.id"
+                    v-model="v.val"
+                    v-bind="v.props">
+                </el-date-picker>
                 <!-- 自定义组件插入 -->
                 <component 
                     v-else-if="v.slot==='component'" 

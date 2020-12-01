@@ -70,6 +70,15 @@ export class ContentPageClass {
         this.additionalAttributes(data)
         this.config.search.push(data);
     }
+
+    // 批量添加搜索项目
+    addSearchItemList(arr){
+        arr.forEach(item => {
+            this.addSearchItem(item)
+        });
+    }
+
+
     // 添加工具条
     addToolbar(pos='top', data={slot:'default'}) {
         this.additionalAttributes(data)
@@ -81,10 +90,24 @@ export class ContentPageClass {
         }
     }
 
+    // 批量添加搜索项目
+    addToolbarList(pos,arr){
+        arr.forEach(item => {
+            this.addToolbar(pos,item)
+        });
+    }
+
     // 添加单元格
     addFieldItem(data) {
         this.additionalAttributes(data)
         this.config.fields.push(data);
+    }
+
+    // 批量添加搜索项目
+    addFieldItemList(arr){
+        arr.forEach(item => {
+            this.addFieldItem(item)
+        });
     }
 
     // 添加方法
