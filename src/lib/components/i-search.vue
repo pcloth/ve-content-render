@@ -13,6 +13,7 @@
                     :key="v.id"
                     :placeholder="v.tip"
                     v-model.trim="v.val"
+                    v-bind="v.props"
                     :style="{ width: `${v.width ? v.width : itemWidth}px` }"
                 />
                 <!-- 选择框 -->
@@ -23,6 +24,7 @@
                     v-model="v.val"
                     :mode="v.multiple ? 'multiple' : ''"
                     :placeholder="v.tip"
+                    v-bind="v.props"
                     :style="{
                         minWidth: `${v.width ? v.width : itemWidth+30}px`,
                         width: v.multiple ? 'initial' : `${v.width ? v.width : itemWidth+30}px`
@@ -46,7 +48,7 @@
                     :is="v.component"
                 />
             </template>
-            <el-button v-loading="loading" type="primary" @click="handleSearch"
+            <el-button v-loading="loading" type="primary" @click="handleSearch" icon="el-icon-search"
                 >搜索</el-button
             >
         </el-form>

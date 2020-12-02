@@ -96,7 +96,7 @@
             append-to-body
         >
             <!-- 这里制作view、edit、delete弹窗和插槽 -->
-            <slot name="dialog">
+            <slot name="dialog" :type="dialog.type">
                 <template v-for="(v,k) in dialogConfig">
                     <!-- 组件接入 -->
                     <component v-if="v.slot==='component' && dialog.type===v.type" :is="v.component" v-bind="v.props" :key="v.id"/>
@@ -159,15 +159,23 @@ export default {
                 pageSize: 20,
             },
             total: 0,
+            pageKey:'',
+            pageSizeKey:''
         };
+    },
+    watch:{
+        instance(){
+            this.initInstance2Object()
+        }
     },
     created(){
         this.initInstance2Object()
     },
     mounted() {
-        this.queryParams.pageSize = 20;
-        this.queryParams.page = 1;
-        // this.handleQueryData();
+        if(this.instance.getOptions('search','autoQuery')){
+            this.queryParams.page = 1;
+            this.handleQueryData();
+        }
     },
     methods: {
         initInstance2Object() {
@@ -184,23 +192,29 @@ export default {
             if(this.topToolbarConfig){
 
             }
-            
+
+            this.pageKey = this.instance.getOptions('search','pageKey')
+            this.pageSizeKey = this.instance.getOptions('search','pageSizeKey')
         },
         mergePageParams(params){
             // 合并分页组件参数
-            return Object.assign(params,this.queryParams)
+            let p = {}
+            p[this.pageKey] = this.queryParams.page
+            p[this.pageSizeKey] = this.queryParams.pageSize
+            return Object.assign(params,p)
         },
         handleQueryData(params) {
             if (!params) {
                 params = this.queryParams;
             }
-            this.queryParams = this.mergePageParams(params);
+            let data = this.mergePageParams(params);
 
-            this.instance.dispatch('search/query',this.queryParams).then((res) => {
+            this.instance.dispatch('search/query',data).then((res) => {
                 this.tDataList = this.instance.responseGetPath('search/query/dataList',res)
                 this.total = this.instance.responseGetPath('search/query/dataTotal',res)
+                this.$emit('query-data-success',res)
             });
-            this.$emit('search-query-data',this.queryParams)
+            this.$emit('search-query-data',data)
         },
         changeStatus(params) {
             // 改变搜索状态，重搜索第一页
@@ -226,9 +240,24 @@ export default {
             this.handleCommand(name, row)
             this.$emit('table-field-button-click',name,row)
         },
-        handleToolbarButton(position,name,head){
-            // 头部按钮点击事件，直接传递给父组件ve-content-render上报给用户组件
-            this.$emit('toolbar-button-click',position,name,head)
+        handleToolbarButton(position,name,button){
+            // 工具条点击事件，直接传递给父组件ve-content-render上报给用户组件
+            console.log(position,name,button)
+            this.$emit('toolbar-button-click',position,name,button)
+        },
+
+        openDialog(type,top,title,width='85%'){
+            this.dialog = {
+                type,
+                top,
+                title,
+                width,
+                visible: true,
+            }
+            console.log('dialog',this.dialog)
+        },
+        closeDialog(){
+            this.dialog.visible = false
         },
         handleSelectionChange(currSelected){
             // 表格选中事件

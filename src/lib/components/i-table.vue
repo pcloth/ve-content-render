@@ -42,7 +42,7 @@
                         <!-- 按钮插槽 -->
                         <el-button 
                             v-if="head.slot==='button'"
-                            v-bind="head" 
+                            v-bind="head.props" 
                             :key="`${head.tip}${i}${k}`"
                             @click="head.callback||handleHeadButton('button',head)"
                             >{{head.tip}}
