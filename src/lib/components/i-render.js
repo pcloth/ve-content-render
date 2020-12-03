@@ -22,13 +22,13 @@ export default {
         },
         no: {
         type: Number
-        }
+        },
+        that:Object, // 接受父组件
     },
     render: (h, ctx) => {
         const row = ctx.props.row;
-        const index = ctx.props.index;
-        const no = ctx.props.no;
         let column = ctx.props.column || {};
-        return ctx.props.render(h, ctx, row, column, index, no);
+        let veContentRender = ctx.props.that.$parent;
+        return ctx.props.render(h, ctx, row,veContentRender);
     }
 };

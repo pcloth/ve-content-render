@@ -15,6 +15,10 @@
     <!-- <div slot="table-default-header-button">
             <el-button slot="table-default-header-button">头部按钮</el-button>
         </div> -->
+        <template v-slot:dialog="scope">
+          {{scope}}
+          <div v-if="scope.type==='date'" >日期对话框</div>
+        </template>
   </ve-content-render>
 </template>
 
@@ -48,10 +52,14 @@ demo.addFieldItemList([
   {
     label: "日期",
     prop: "date",
-    formatter(row, col, value) {
-      // console.log(row,col,value)
-      return value + " ^_^";
-    },
+    render(h, ctx, row, veContentRender){
+      // veContentRender 是主页面组件
+      let f=function(e){
+        console.log('eeee',e)
+        return veContentRender.openDialog('date','3vh','','70%',row)
+      }
+      return <el-button type="warning" onClick={f}>打开对话框</el-button>
+    }
   },
   { label: "客户", prop: "name" },
   { label: "省份", prop: "province" },

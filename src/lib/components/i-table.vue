@@ -68,6 +68,7 @@
                             :row="scope.row"
                             :column="scope.column"
                             :index="i"
+                            :that="$parent"
                             :no="scope.$index"
                             :render="v.render || null"
                         />

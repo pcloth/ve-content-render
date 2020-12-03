@@ -246,7 +246,7 @@ export default {
             this.$emit('toolbar-button-click',position,name,button)
         },
 
-        openDialog(type,top,title,width='85%'){
+        openDialog(type,top,title,width='85%',data={}){
             this.dialog = {
                 type,
                 top,
@@ -254,7 +254,7 @@ export default {
                 width,
                 visible: true,
             }
-            console.log('dialog',this.dialog)
+            console.log('dialog',this.dialog,data)
         },
         closeDialog(){
             this.dialog.visible = false
