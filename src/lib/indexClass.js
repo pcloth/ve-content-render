@@ -66,7 +66,6 @@ export class ContentPageClass {
             },
             props:{
                 // 各个组件的props传入参数
-
                 table:{
                     border:true
                 },
