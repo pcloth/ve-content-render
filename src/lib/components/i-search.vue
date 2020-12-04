@@ -14,7 +14,7 @@
                     :placeholder="v.tip"
                     v-model.trim="v.val"
                     v-bind="v.props"
-                    :style="{ width: `${v.width ? v.width : itemWidth}px` }"
+                    :style="{ width: `${v.width ? v.width : searchOption.itemWidth}px` }"
                 />
                 <!-- 选择框 -->
                 <el-select
@@ -26,8 +26,8 @@
                     :placeholder="v.tip"
                     v-bind="v.props"
                     :style="{
-                        minWidth: `${v.width ? v.width : itemWidth+30}px`,
-                        width: v.multiple ? 'initial' : `${v.width ? v.width : itemWidth+30}px`
+                        minWidth: `${v.width ? v.width : searchOption.itemWidth+30}px`,
+                        width: v.multiple ? 'initial' : `${v.width ? v.width : searchOption.itemWidth+30}px`
                     }"
                 >
                     <el-option v-for="(o,i) in v.options" :label="o.label" :value="o.value" :key="`${o.value}${k}${i}`"/>
@@ -48,9 +48,18 @@
                     :is="v.component"
                 />
             </template>
-            <el-button v-loading="loading" type="primary" @click="handleSearch" icon="el-icon-search"
-                >搜索</el-button
-            >
+            <el-button 
+                v-if="searchOption.showSearchButton" 
+                v-loading="loading" 
+                @click="handleSearch" 
+                v-bind="searchOption.buttonProps"
+            >搜索
+            </el-button>
+            <!-- 扩展按钮 -->
+            <template v-for="btn in expandButtons">
+                <el-button v-bind="btn.props" v-if="btn.callback" :key="btn.id" @click="btn.callback(btn)">{{btn.tip}}</el-button>
+                <el-button v-bind="btn.props" v-else :key="btn.id" @click="handleSearchExBtn(btn)">{{btn.tip}}</el-button>
+            </template>
         </el-form>
     </sticky>
 </template>
@@ -69,10 +78,17 @@ export default {
                 return [];
             },
         },
-        itemWidth: {
-            // 单独选项默认宽度
-            type: Number,
-            default: 100,
+        searchOption:{
+            type:Object,
+            default(){
+                return {}
+            }
+        },
+        expandButtons: {
+            type: Array,
+            default() {
+                return [];
+            },
         },
     },
     data() {
@@ -122,6 +138,11 @@ export default {
             console.log("搜索按钮触发", params);
             params && this.$emit("search", params);
         },
+        handleSearchExBtn(btn){
+            console.log(3333,btn)
+            this.$emit('search-expand-button-click',btn)
+            
+        }
     },
 };
 </script>

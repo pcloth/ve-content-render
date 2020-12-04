@@ -1,5 +1,5 @@
 <template>
-    <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
+    <el-table v-bind="propsTable" :data="tableData" stripe @selection-change="handleSelectionChange">
         <template v-for="(v, i) in fields">
             <el-table-column
                 v-if="v.type === 'index'"
@@ -155,6 +155,12 @@ export default {
                 return [];
             },
         },
+        propsTable:{
+            type: Object,
+            default() {
+                return {};
+            },
+        }
     },
     data() {
         return {
