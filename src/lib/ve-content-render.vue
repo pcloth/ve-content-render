@@ -1,11 +1,12 @@
 <template>
-    <el-row class="page-content">
+    <el-row class="page-content" :class="className.pageContent">
         <!-- 搜索条 -->
         <slot
             name="search"
             :searchItem="searchConfig"
         >
             <i-search
+                :className="className"
                 :searchOption="searchOption"
                 :searchItem="searchConfig"
                 :expandButtons="expandButtons"
@@ -185,11 +186,8 @@
 import iSearch from "./components/i-search";
 import iTable from "./components/i-table";
 
-try {
-    const ExportJsonExcel = require("js-export-excel");
-} catch (error) {
-    const ExportJsonExcel = undefined
-}
+const ExportJsonExcel = require("js-export-excel");
+
 
 
 export default {
@@ -351,11 +349,7 @@ export default {
         handleToolbarButton (position, name, button) {
             // 工具条点击事件，直接传递给父组件ve-content-render上报给用户组件
             let useDefaultButtonFuntion = this.instance.getOptions('table', 'useDefaultButtonFuntion')
-            if (!useDefaultButtonFuntion || button.slot !== 'default') {
-                // 不是默认按钮，或者指定了手动控制默认按钮
-                this.$emit('toolbar-button-click', position, name, button)
-                return
-            }
+
             if (button.slot === 'default' && name === 'delete' && this.instance.hasDispatch('toolbar/delete')) {
                 // 默认按钮的批量删除
                 let deleteKey = this.instance.getOptions('toolbar', 'deleteKey')
@@ -385,6 +379,9 @@ export default {
                 }
 
             }
+
+            this.$emit('toolbar-button-click', position, name, button)
+            return
 
         },
         jsExportExcelCurrTable () {

@@ -1,10 +1,11 @@
 <template>
-    <sticky
+    <!-- <sticky
         :z-index="10"
         class-name="sub-navbar draft"
         v-if="searchItem.length"
-    >
-        <el-form class="filter-box ve-content-render-search">
+    > -->
+    <div :class="className.search">
+        <el-form class="filter-box ve-content-render-search" >
             <template v-for="(v, k) in searchItem">
                 <!-- 普通输入框 -->
                 <el-input
@@ -61,7 +62,8 @@
                 <el-button v-bind="btn.props" v-else :key="btn.id" @click="handleSearchExBtn(btn)">{{btn.tip}}</el-button>
             </template>
         </el-form>
-    </sticky>
+    <!-- </sticky> -->
+    </div>
 </template>
 
 <script>
@@ -90,6 +92,12 @@ export default {
                 return [];
             },
         },
+        className:{
+            type:Object,
+            default(){
+                return {}
+            }
+        }
     },
     data() {
         return {

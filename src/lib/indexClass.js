@@ -60,6 +60,8 @@ export class ContentPageClass {
             // 默认配置
             class:{
                 // 放置各个组件的类名
+                pageContent:'el-card box-card is-always-shadow',
+                search:'el-card__header',
                 topToolbar:'ve-content-render-top-toolbar',
                 pagination:'ve-content-render-pagination',
                 buttomToolbar:'ve-content-render-butoom-toolbar',
