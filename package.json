@@ -21,6 +21,7 @@
     "axios": "^0.21.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "element-ui": "^2.14.1",
+    "js-export-excel": "^1.1.4",
     "vue": "^2.5.11"
   },
   "devDependencies": {
